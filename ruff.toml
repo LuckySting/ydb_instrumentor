@@ -1,23 +1,7 @@
-[project]
-name = "ydb-investigations"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "opentelemetry-api>=1.32.1",
-    "opentelemetry-exporter-otlp>=1.32.1",
-    "opentelemetry-instrumentation-grpc>=0.53b1",
-    "opentelemetry-sdk>=1.32.1",
-    "ruff>=0.11.8",
-    "ydb>=3.21.1",
-]
-
-[tool.ruff]
 line-length = 120
 indent-width = 4
 
-[tool.ruff.lint]
+[lint]
 ignore = [
     "D",
     "ANN101",
@@ -44,11 +28,11 @@ select = ["ALL"]
 fixable = ["ALL"]
 unfixable = ["B"]
 
-[tool.ruff.format]
+[format]
 quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
 
-[tool.ruff.lint.isort]
+[lint.isort]
 force-single-line = true

@@ -1,0 +1,41 @@
+services:
+  tempo:
+    image: grafana/tempo:latest
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./tempo.yaml:/etc/tempo.yaml
+    ports:
+      - "3200:3200" # tempo
+      - "4317:4317" # otlp grpc
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: [ "--config=/etc/otel-collector-config.yaml" ]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+
+  prometheus:
+    image: prom/prometheus
+    network_mode: host
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/config/prometheus.yml
+    command:
+      - "--config.file=/etc/config/prometheus.yml"
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana-oss
+    pull_policy: always
+    network_mode: host
+    container_name: grafana
+    restart: unless-stopped
+    user: root
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_DOMAIN=localhost
+      - GF_LOG_MODE=console file
