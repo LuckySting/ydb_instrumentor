@@ -8,15 +8,18 @@ async def make_query(pool: ydb.aio.QuerySessionPool) -> None:
     session: ydb.aio.QuerySession
     async with pool.checkout() as session, session.transaction() as tx:
         cursor = await tx.execute("SELECT 1+1")
-        print([result_set.rows[0] async for result_set in cursor])
+        _ = [result_set.rows[0] async for result_set in cursor]
         await tx.commit()
 
 
 @contextlib.asynccontextmanager
-async def ydb_pool() -> AsyncIterator[ydb.aio.QuerySessionPool]:
+async def ydb_pool(
+    endpoint: str = "localhost:2135",
+    database: str = "/local",
+) -> AsyncIterator[ydb.aio.QuerySessionPool]:
     config = ydb.DriverConfig(
-        endpoint="localhost:2135",
-        database="/local",
+        endpoint=endpoint,
+        database=database,
     )
     async with ydb.aio.Driver(driver_config=config) as driver:
         await driver.wait()
