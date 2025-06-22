@@ -1,17 +1,12 @@
 [project]
-name = "ydb-investigations"
+name = "ydb-instrumentor"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "opentelemetry-api>=1.32.1",
-    "opentelemetry-exporter-otlp>=1.32.1",
-    "opentelemetry-instrumentation-grpc>=0.53b1",
     "opentelemetry-sdk>=1.32.1",
-    "ruff>=0.11.8",
     "ydb>=3.21.1",
-    "testcontainers>=4.0.0",
 ]
 
 [tool.ruff]
@@ -50,6 +45,17 @@ quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
+
+[dependency-groups]
+dev = [
+    "opentelemetry-api>=1.32.1",
+    "opentelemetry-exporter-otlp>=1.32.1",
+    "opentelemetry-instrumentation-grpc>=0.53b1",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.0.0",
+    "ruff>=0.11.8",
+    "testcontainers>=4.0.0",
+]
 
 [tool.ruff.lint.isort]
 force-single-line = true
